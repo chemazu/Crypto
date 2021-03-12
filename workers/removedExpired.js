@@ -7,7 +7,7 @@ const removeExpired = new CronJob(
     alerts.forEach((alert, index) => {
       // iterate through all the alerts
       if (
-        new Date(alert.createdAt).getTime() + 5 * 10000 <
+        new Date(alert.createdAt).getTime() + 10 * 10000 <
         new Date().getTime()
       )
         //Convert to ms and compare

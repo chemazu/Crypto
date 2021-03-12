@@ -1,22 +1,21 @@
-// const controller = module.exports;
-const { nomicsKey } = require("../config/keys");
-require("../workers/removedExpired");
+const currentPrice = require("../helpers/currentPrice");
 const alerts = require("./alerts");
 const axios = require("axios");
-// require("../workers/removeExpired.js");
 require("../workers/removedExpired");
-
+require("../workers/sendAlert");
 module.exports.first = (req, res, next) => {
   res.status(200).json("First");
   return next();
 };
 
-module.exports.currentPrice = async (req, res, next) => {
+module.exports.getCurrentPrice = async (req, res, next) => {
   try {
-    let url =
-      "https://api.nomics.com/v1/currencies/ticker?key=db88f32f365b9d4caebcdcb42c0a6649&ids=BTC,ETH,XRP&interval=1d,30d&convert=USD&per-page=100&page=1";
-    const resp = await axios.get(url);
-    res.status(200).json(resp.data);
+    let prices = await currentPrice();
+    if (prices.error) return res.status(500).json(prices);
+    return res.status(200).json({
+      success: true,
+      price_data: prices.data,
+    });
   } catch (error) {
     console.log(error);
   }

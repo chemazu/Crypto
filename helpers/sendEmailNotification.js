@@ -15,15 +15,14 @@ module.exports.sendMail = async (email, message, title) => {
     });
     let info = await transporter.sendMail({
       from: '"Fred Foo 👻" <foo@example.com>', // sender address
-      to: email, // list of receivers
-      subject: title, // Subject line
-      text: message, // plain text body
+      to: "chukwuemekachemazu@gmail.com", // list of receivers
+      subject: "title", // Subject line
+      text: "message", // plain text body
       html:
         "<b>Good Morning Chukwuemeka , How is today going to be here are Stock,mantra,schedule,word for the day</b>", // html body
     });
-    return { status: true, info };
+    return { success: true, error: false, info };
   } catch (error) {
-    console.log(error);
-    console.log(process.env.PASSWORD);
+    return { error: true, message: "cant send mail", error };
   }
 };

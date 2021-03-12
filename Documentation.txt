@@ -1,3 +1,4 @@
 To make use of the app: 
 input your gmail login information in "sendEmailNotification.js",one your google account "turn on allow access for less secure apps
 sign in with your twillo account in "sendWhatsapp"
+###### I HAVE TO WRITE HOW TO COLLECT DATA FROM EACH FILE. OR MAKE A CONSISTENT RETURN FORMAT######
