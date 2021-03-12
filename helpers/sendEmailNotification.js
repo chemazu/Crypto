@@ -10,18 +10,18 @@ module.exports.sendMail = async (email, message, title) => {
       secure: true,
       auth: {
         user: process.env.EMAIL_ADDRESS,
-        pass: "ratface3",
+        pass: "", //removed password so i can commit
       },
     });
     let info = await transporter.sendMail({
       from: '"Fred Foo 👻" <foo@example.com>', // sender address
-      to: "chukwuemekachemazu@gmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
+      to: email, // list of receivers
+      subject: title, // Subject line
+      text: message, // plain text body
       html:
         "<b>Good Morning Chukwuemeka , How is today going to be here are Stock,mantra,schedule,word for the day</b>", // html body
     });
-    message.status(200).json({ status: true, info });
+    return { status: true, info };
   } catch (error) {
     console.log(error);
     console.log(process.env.PASSWORD);

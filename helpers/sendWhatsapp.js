@@ -1,15 +1,16 @@
-const accountSid = "AC564ba6db4506581b6bbd04e98447e865";
-const authToken = "[AuthToken]";
-const client = require("twilio")(accountSid, authToken);
+// const client = require("twilio")(accountSid, authToken);
+const dotenv = require("dotenv");
+dotenv.config();
 
 module.exports.sendWhatsapp = (req, res, next) => {
-  const accountSid = ""; //id deleted because of security
-  const authToken = ""; //deleted cus of security
+  const accountSid = process.env.accountSid;
+  const authToken = process.env.authToken;
+
   const client = require("twilio")(accountSid, authToken);
 
   client.messages
     .create({
-      body: "it works son",
+      body: "Your appointment is coming up on July 21 at 3PM",
       from: "whatsapp:+14155238886",
       to: "whatsapp:+2348171481096",
     })
