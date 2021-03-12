@@ -3,4 +3,10 @@ module.exports = {
   action: () => {
     console.log("egg");
   },
+  SENDGRID_USERNAME: "",
+  SENDGRID_PASSWORD: "",
+  NAME: "",
+  EMAIL_ADDRESS: "",
+
+  REDIS_URL: "redis://127.0.0.1:6379",
 };
