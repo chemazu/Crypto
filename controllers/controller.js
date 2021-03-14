@@ -1,7 +1,7 @@
 const currentPrice = require("../helpers/currentPrice");
 const alerts = require("../models/alert.model");
 require("../workers/removedExpired");
-// require("../workers/sendAlert");
+require("../workers/sendAlert");
 module.exports.first = (req, res, next) => {
   res.status(200).json("First");
   return next();
