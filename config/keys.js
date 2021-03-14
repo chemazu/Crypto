@@ -9,4 +9,6 @@ module.exports = {
   EMAIL_ADDRESS: "",
 
   REDIS_URL: "redis://127.0.0.1:6379",
+  mongURI:
+    "mongodb+srv://chemazu:Ratface_3@cluster0.am9d5.mongodb.net/crypto?retryWrites=true&w=majority",
 };

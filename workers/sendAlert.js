@@ -9,45 +9,54 @@ const { sendWhatsapp } = require("../helpers/sendWhatsapp");
 var alertQueue = new Queue("alerts", "redis://127.0.0.1:6379"); // create queue
 
 alertQueue.process(async function (job, done) {
-  const { recipient, title, message } = job.data;
+  try {
+    const { recipient, title, message } = job.data;
 
-  let sendEmailResponse = await sendEmailNotification(
-    "chukwuemekachemazu@gmail.com",
-    message,
-    title
-  );
-  // let sendEmailResponse = await sendEmailNotification(
-  //   recipient,
-  //   message,
-  //   title
-  // );
+    let sendEmailResponse = await sendEmailNotification(
+      "chukwuemekachemazu@gmail.com",
+      message,
+      title
+    );
+    // let sendEmailResponse = await sendEmailNotification(
+    //   recipient,
+    //   message,
+    //   title
+    // );
 
-  if (sendEmailResponse.error) {
-    done(new Error("Error sending alert"));
+    if (sendEmailResponse.error) {
+      done(new Error("Error sending alert"));
+    }
+    console.log("email works");
+    done();
+  } catch (error) {
+    console.log(error);
   }
-  console.log("email works");
-  done();
 });
 
 var sendAlert = new CronJob("*/25 * * * * *", async function () {
-  const currentPrices = await currentPrice();
-  console.log("current prices", currentPrices);
-  if (currentPrices.error) {
-    console.log("error in fetching prices");
-  }
-  let priceObj = {
-    BTC: currentPrices.data.BTC,
-    ETH: currentPrices.data.ETH,
-  };
-  alerts.forEach((singleAlert) => {
-    if (
-      singleAlert.type == "above" &&
-      parseFloat(singleAlert.price) <= parseFloat(priceObj[singleAlert.asset])
-    ) {
-      console.log("fire");
-      sendWhatsapp();
+  try {
+    const currentPrices = await currentPrice();
+    console.log("current prices", currentPrices);
+    if (currentPrices.error) {
+      console.log("error in fetching prices");
     }
-  });
+    let priceObj = {
+      BTC: currentPrices.data.BTC,
+      ETH: currentPrices.data.ETH,
+    };
+    alerts.forEach((singleAlert) => {
+      if (
+        singleAlert.type == "above" &&
+        parseFloat(singleAlert.price) <= parseFloat(priceObj[singleAlert.asset])
+      ) {
+        console.log("fire");
+        sendWhatsapp();
+        sendEmailNotification.sendMail();
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // var sendAlert = new CronJob("*/25 * * * * *", async function () {

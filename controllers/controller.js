@@ -1,8 +1,7 @@
 const currentPrice = require("../helpers/currentPrice");
-const alerts = require("./alerts");
-const axios = require("axios");
+const alerts = require("../models/alert.model");
 require("../workers/removedExpired");
-require("../workers/sendAlert");
+// require("../workers/sendAlert");
 module.exports.first = (req, res, next) => {
   res.status(200).json("First");
   return next();
@@ -34,20 +33,36 @@ module.exports.createAlert = async (req, res, next) => {
         error: true,
         message: "You can set alerts for BTC and ETH only.",
       });
-    alerts.push({
-      asset: asset,
-      price: price,
-      email: email,
-      type: type.toLowerCase(),
-      createdAt: new Date(),
-    });
-
-    return res.send({ success: true, message: "Alert created" }); //Send response
+    else {
+      // alerts.push({
+      //   asset: asset,
+      //   price: price,
+      //   email: email,
+      //   type: type.toLowerCase(),
+      //   createdAt: new Date(),
+      // });
+      const newAlert = alerts({
+        asset: asset,
+        price: price,
+        email: email,
+        type: type.toLowerCase(),
+        createdAt: new Date(),
+      });
+      newAlert
+        .save()
+        .then(() => {
+          console.log("sent to db!!");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return res.send({ success: true, message: "Alert created" }); //Send response
+    }
   } catch (error) {
     res.status(500).json(error);
   }
   return next();
 };
 exports.getAlerts = async (req, res) => {
-  return res.send({ success: true, alerts: alerts });
+  return res.send({ success: true, alerts: await alerts.find() });
 };
