@@ -10,7 +10,7 @@ module.exports.sendMail = async (email, message, title) => {
       secure: true,
       auth: {
         user: process.env.EMAIL_ADDRESS,
-        pass: "", //removed password so i can commit
+        pass: "ratface3", //removed password so i can commit
       },
     });
     let info = await transporter.sendMail({

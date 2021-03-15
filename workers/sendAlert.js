@@ -1,7 +1,8 @@
 const CronJob = require("cron").CronJob;
 var Queue = require("bull");
-const alerts = require("../controllers/alerts");
-const keys = require("../config/keys");
+const mongoose = require("mongoose");
+
+const alerts = require("../models/alert.model");
 const currentPrice = require("../helpers/currentPrice");
 const sendEmailNotification = require("../helpers/sendEmailNotification");
 const { sendWhatsapp } = require("../helpers/sendWhatsapp");
@@ -44,16 +45,29 @@ var sendAlert = new CronJob("*/25 * * * * *", async function () {
       BTC: currentPrices.data.BTC,
       ETH: currentPrices.data.ETH,
     };
-    alerts.forEach((singleAlert) => {
+    //mongo
+    const allAlerts = await alerts.find();
+    console.log(allAlerts);
+    allAlerts.forEach((singleAlert) => {
       if (
         singleAlert.type == "above" &&
         parseFloat(singleAlert.price) <= parseFloat(priceObj[singleAlert.asset])
       ) {
         console.log("fire");
-        sendWhatsapp();
+        // sendWhatsapp();
         sendEmailNotification.sendMail();
       }
     });
+    // alerts.forEach((singleAlert) => {
+    //   if (
+    //     singleAlert.type == "above" &&
+    //     parseFloat(singleAlert.price) <= parseFloat(priceObj[singleAlert.asset])
+    //   ) {
+    //     console.log("fire");
+    //     sendWhatsapp();
+    //     sendEmailNotification.sendMail();
+    //   }
+    // });
   } catch (error) {
     console.log(error);
   }
