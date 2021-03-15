@@ -1,6 +1,5 @@
 const CronJob = require("cron").CronJob;
 var Queue = require("bull");
-const mongoose = require("mongoose");
 
 const alerts = require("../models/alert.model");
 const currentPrice = require("../helpers/currentPrice");
@@ -45,7 +44,6 @@ var sendAlert = new CronJob("*/25 * * * * *", async function () {
       BTC: currentPrices.data.BTC,
       ETH: currentPrices.data.ETH,
     };
-    //mongo
     const allAlerts = await alerts.find();
     console.log(allAlerts);
     allAlerts.forEach((singleAlert) => {
@@ -58,16 +56,6 @@ var sendAlert = new CronJob("*/25 * * * * *", async function () {
         sendEmailNotification.sendMail();
       }
     });
-    // alerts.forEach((singleAlert) => {
-    //   if (
-    //     singleAlert.type == "above" &&
-    //     parseFloat(singleAlert.price) <= parseFloat(priceObj[singleAlert.asset])
-    //   ) {
-    //     console.log("fire");
-    //     sendWhatsapp();
-    //     sendEmailNotification.sendMail();
-    //   }
-    // });
   } catch (error) {
     console.log(error);
   }

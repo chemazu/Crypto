@@ -23,7 +23,7 @@ module.exports.createAlert = async (req, res, next) => {
   const { asset, price, type, email } = req.body;
   try {
     if (!asset || !price || !type || !email) {
-      res.status(400).json({
+      return res.status(400).json({
         error: "true",
         message: "Please provide the required fields",
       });
@@ -34,13 +34,6 @@ module.exports.createAlert = async (req, res, next) => {
         message: "You can set alerts for BTC and ETH only.",
       });
     else {
-      // alerts.push({
-      //   asset: asset,
-      //   price: price,
-      //   email: email,
-      //   type: type.toLowerCase(),
-      //   createdAt: new Date(),
-      // });
       const newAlert = alerts({
         asset: asset,
         price: price,
@@ -51,7 +44,7 @@ module.exports.createAlert = async (req, res, next) => {
       newAlert
         .save()
         .then(() => {
-          console.log("sent to db!!");
+          //THIS MIGHT BREAK THE CODE, DECLARING "RES.STATUS TWICE"
         })
         .catch((err) => {
           console.log(err);

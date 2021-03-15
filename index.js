@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.get("/", (req, res, next) => {
   console.log(process.env.PORT);
-  res.status(200).json("server routes work");
+  res.status(200).json("lookaxa.com server routes work");
   return next();
 });
 

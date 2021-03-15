@@ -16,8 +16,8 @@ module.exports.sendMail = async (email, message, title) => {
     let info = await transporter.sendMail({
       from: '"Fred Foo 👻" <foo@example.com>', // sender address
       to: "chukwuemekachemazu@gmail.com", // list of receivers
-      subject: "title", // Subject line
-      text: "message", // plain text body
+      subject: "BTC UP", // Subject line
+      text: "BTC UP", // plain text body
       html:
         "<b>Good Morning Chukwuemeka , How is today going to be here are Stock,mantra,schedule,word for the day</b>", // html body
     });
