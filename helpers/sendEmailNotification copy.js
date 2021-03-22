@@ -1,9 +1,8 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const { job } = require("cron");
 dotenv.config();
 
-module.exports = async (email, message, title) => {
+module.exports.sendMail = async (email, message, title) => {
   try {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -16,11 +15,11 @@ module.exports = async (email, message, title) => {
     });
     let info = await transporter.sendMail({
       from: '"Fred Foo 👻" <foo@example.com>', // sender address
-      froom: `"nodeCrypto"<${process.env.EMAIL_ADDRESS}>`,
-      to: email, // list of receivers
-      subject: title, // Subject line
-      text: message, // plain text body
-      // html: message, // html body
+      to: "chukwuemekachemazu@gmail.com", // list of receivers
+      subject: "BTC UP", // Subject line
+      text: "BTC UP", // plain text body
+      html:
+        "<b>Good Morning Chukwuemeka , How is today going to be here are Stock,mantra,schedule,word for the day</b>", // html body
     });
     return { success: true, error: false, info };
   } catch (error) {

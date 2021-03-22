@@ -43,9 +43,7 @@ module.exports.createAlert = async (req, res, next) => {
       });
       newAlert
         .save()
-        .then(() => {
-          //THIS MIGHT BREAK THE CODE, DECLARING "RES.STATUS TWICE"
-        })
+        .then()
         .catch((err) => {
           console.log(err);
         });
